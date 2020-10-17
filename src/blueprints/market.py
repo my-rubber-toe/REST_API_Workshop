@@ -1,10 +1,15 @@
 from flask import Blueprint, jsonify
 from utils.responses import ApiResponse
 
-bp = Blueprint(name="market", url_prefix='/market', import_name=__name__)
+bp = Blueprint(
+    name=__name__,
+    import_name=__name__,
+    url_prefix='/market'
+)
+
 
 @bp.route('/')
-def market_main():
+def base_url():
     return ApiResponse({
-        'message': "Welcome to the Market :)"
+        'message': f"Welcome to the {__name__}"
     })
