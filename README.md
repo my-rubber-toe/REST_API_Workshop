@@ -7,10 +7,9 @@ export FLASK_ENV=development
 flask run --port <port-number>
 ```
 
+Mock Up Data:
 
-Use faker to create mock data
-
-https://faker.readthedocs.io/en/master/
+Open the `db_populate.py` file on the main directory. Change the database connection string to the location of your mongodb. run `python db_populate.py`.
 
 
 Database engine

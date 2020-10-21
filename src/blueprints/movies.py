@@ -11,6 +11,7 @@ bp = Blueprint(
 
 @bp.route('/')
 def base_url():
+    db_operations.get_all_movies()
     return ApiResponse({
         'message': f"Welcome to the {__name__}."
     })
@@ -18,9 +19,10 @@ def base_url():
 
 @bp.route('/all', methods=['GET'])
 def get_all_movies():
-    return ApiResponse({
-        'message': f"Welcome to the {__name__}."
-    })
+    return jsonify(db_operations.get_all_movies())
+    # return ApiResponse({
+    #     'message': f"Welcome to the {__name__}."
+    # })
 
 
 @bp.route('/some')
