@@ -12,6 +12,4 @@ Mock Up Data:
 Open the `db_populate.py` file on the main directory. Change the database connection string to the location of your mongodb. run `python db_populate.py`.
 
 
-Database engine
-
-http://mongoengine.org/
+Database engine **pymongo**
