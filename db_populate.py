@@ -17,8 +17,12 @@ with open('movies.json') as f:
     total = len(file_data)
     count = 0
     for x in file_data:
+        if x['Year'] == 2010:
+            print('OK')
         collection.insert_one(x)
         print('Uploaded ' + "{:.2f}".format(count/total * 100))
-        count =  count + 1
+        count = count + 1
+
+# collection.find({'Year': {"$gt:": 2010}})
 
 client.close()

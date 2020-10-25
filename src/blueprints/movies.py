@@ -1,6 +1,15 @@
 from flask import Blueprint, jsonify, request
 from utils.responses import ApiResponse
-from db import db_operations
+
+DATABASE_PATH = '../../'
+DATABASE_FILENAME = 'movies.json'
+
+available_endpoints = [
+    "\n/",
+    "\n/all",
+    "\n/create",
+    "\n/delete"
+]
 
 bp = Blueprint(
     name=__name__,
@@ -11,9 +20,9 @@ bp = Blueprint(
 
 @bp.route('/')
 def base_url():
-    db_operations.get_all_movies()
+    api_message = f'Welcome to the {__name__} api. Below is the list of available endpoints to access' + available_endpoints
     return ApiResponse({
-        'message': f"Welcome to the {__name__}."
+        'message': api_message
     })
 
 

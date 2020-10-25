@@ -15,7 +15,7 @@ class ApiFlask(Flask):
 
 def create_app(config_file=None) -> ApiFlask:
     """
-        Creates and returns a Flask app instance.
+        Creates and returns an ApiFlask app instance.
 
         Parameters
         ----------
@@ -29,11 +29,12 @@ def create_app(config_file=None) -> ApiFlask:
     app = ApiFlask(__name__)
 
     with app.app_context():
+
         app.config.from_object(config_file or {})
 
-        _register_blueprints(app)
-
         _register_base_url(app)
+
+        _register_blueprints(app)
 
         return app
 
@@ -46,7 +47,7 @@ def _register_base_url(app: ApiFlask):
     @app.route('/')
     def main_route():
         return ApiResponse({
-            'message': 'You have reached the main route of this api.'
+            'message': f'You have reached the main route of the api. This is the module \"{__name__}\".'
         })
 
 

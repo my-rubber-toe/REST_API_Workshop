@@ -14,4 +14,8 @@ Open the `db_populate.py` file on the main directory. Change the database connec
 
 Database engine **pymongo**
 
+Wev API design:
+
 Another test for webhooks 1
+
+https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design

@@ -23,6 +23,5 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: Sup3rS1mpl3
 
-
 volumes:
   mongo_volume:
