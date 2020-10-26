@@ -21,5 +21,18 @@ def main_route():
     return jsonify(available_routes), 200
 
 
+@app.route("/movies")
+def movies():
+    """
+        Accessing all movies. Perform request operations based on the provided query string.
+    """
+    return "Get all movies based on the query string."
+
+
+@app.route("/movies/<id>")
+def movie_by_id(id: int):
+    return f"Retrieve movie with id={id}"
+
+
 if __name__ == "__main__":
     app.run('localhost', port=5000, debug=True)
