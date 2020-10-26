@@ -28,22 +28,31 @@ def movies():
     """
         Accessing all movies. Perform request operations based on the provided query string.
     """
-    movie_arr = None
+    if request.args:
+        try:
+            start = request.args['start']
+            offset = request.args['offset']
 
-    with open(os.path.join(os.path.dirname(__file__), './movies.json')) as f:
-        movie_arr = json.load(f)
+            # extract info from the database with start and offset
+            # https://www.codementor.io/@arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr
 
-        return jsonify(movie_arr), 200
+        except KeyError as error:
+            print(error)
+            return "Invalid query string!"
+
+    # movie_arr = None
+
+    # with open(os.path.join(os.path.dirname(__file__), './movies.json')) as f:
+    #     movie_arr = json.load(f)
+
+    #     return jsonify(movie_arr), 200
+
+    return "No args"
 
 
 @app.route("/movies/<int:id>")
 def movie_by_id(id):
-    with open(os.path.join(os.path.dirname(__file__), './movies.json')) as f:
-        movie_arr = json.load(f)
-        for m in movie_arr:
-            if m['id'] == id:
-                return jsonify(m), 200
-        return f"Unable to retrieve movie. Invalid id={id}"
+    pass
 
 
 if __name__ == "__main__":
