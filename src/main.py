@@ -20,15 +20,13 @@ def main_route():
 
 @app.route("/movies")
 def movies_endpoint():
-    return "GET all movies based on parameters or POST a movie"
+    return "/movies"
 
 
-@app.route("/movies/<int:id>")
-def movies_by_id():
-    pass
-
-
-
+# Request parameter <id> can be set to be a specific numeric type int, float
+@app.route("/movies/<id>")
+def movies_by_id(id):  # Since we will be josking with bson we need it to be a str
+    return f"/movies/{id}"
 
 
 if __name__ == "__main__":
