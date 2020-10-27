@@ -1,4 +1,6 @@
-from bson import objectid
+import json
+from pymongo import MongoClient
+from bson import ObjectId
 
 
 class MovieModel:
@@ -21,7 +23,6 @@ class MovieModel:
         self.runtime: int = kwargs['Runtime']
 
     def to_json(self):
-        
         return {
             "_id": self.id,
             "Title": self.title,
@@ -43,3 +44,40 @@ class MovieModel:
 
     def __str__(self):
         return f"<MovieModel('Title':{self.title})>"
+
+
+client = MongoClient(
+    host='localhost',
+    port=27017,
+    username='root',  # Username of the database
+    password='Sup3rS1mpl3'  # Password of the database
+)
+
+
+db = client['movie_catalog']  # create database if it exists
+collection = db['movies']
+
+# Returns cursor object to navigate  all the data from the documents
+# movie_arr = collection.find({})
+# movie_count = collection.count_documents(
+#     {})  # count all documents with no filter
+# print(movie_count)
+
+# one_movie = collection.find({'Title': 'Inception'})
+# for m in one_movie:
+#     print(MovieModel(**m).to_json())
+
+
+# Find by filter
+print(collection.find_one({'_id': ObjectId('5f97a41812568277447a423b')}))
+# for m in movie_arr:
+#     a_movie = MovieModel(**m)
+#     print(a_movie.id)
+
+# Update by filter
+my_query = {'_id': ObjectId('5f97a41812568277447a423b')}
+my_values = {"$set": {'Title':'I am a new title'}}
+collection.update_one(my_query, my_values)
+
+
+client.close()
