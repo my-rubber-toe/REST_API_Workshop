@@ -71,7 +71,16 @@ def create_movie(body):
 
 def get_movie_by_id(id):
     """Get a movie by id. Return all fields of a movie"""
-    pass
+    cursor = collection.find_one({'_id': ObjectId(id)})
+    
+    movie = None
+
+    for m in cursor:
+        movie = MovieModel(**m)
+    
+    return jsonify(movie.to_json())
+
+
 
 
 def update_movie_by_id(id, movie_data):

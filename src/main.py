@@ -45,7 +45,7 @@ def movies_endpoint():
 # Request parameter <id> can be set to be a specific numeric type int, float
 @app.route("/movies/<id>")
 def movies_by_id(id):  # Since we will be josking with bson we need it to be a str
-    return f"/movies/{id}"
+    return database.get_movie_by_id(id)
 
 
 if __name__ == "__main__":
