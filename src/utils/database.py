@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from flask import jsonify
 from utils.movie import MovieModel
+from bson.objectid import ObjectId
 
 mongo_client = MongoClient(
     host='localhost',
@@ -51,9 +52,21 @@ def get_movies(start=0, offset=50):
     return jsonify(res_arr)
 
 
-def create_movie(movie):
+def create_movie(body):
     """Insert a new movie into the database. use the movie model serialization."""
-    pass
+    # Use spread operator to populate movie model
+    new_item = MovieModel(**body)
+    
+    # Add a valid bson ObjectID to the movie model
+    new_item.id = ObjectId()
+
+    # Insert movie to the database
+    created_item = collection.insert_one(new_item.to_json())
+    
+    return jsonify({
+        'message': 'Movie successfully created!',
+        'id': str(created_item.inserted_id)
+    })
 
 
 def get_movie_by_id(id):
