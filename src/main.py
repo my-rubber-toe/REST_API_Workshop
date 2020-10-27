@@ -12,13 +12,23 @@ def main_route():
         0: '/',
         1: '/movies',
         2: '/movies/<id>',
-        3: '/movies?year=<int>&lt=<bool>&mt=<bool>',
-        4: '/movies?genre=<string>',
-        5: '/movies?runtime=<int>&lt=<bool>&mt=<bool>',
-        6: '/movies?servicename=<string>'
+        3: '/movies?start=<int>&offset=<int>',
     }
 
     return jsonify(available_routes), 200
+
+
+@app.route("/movies")
+def movies_endpoint():
+    return "GET all movies based on parameters or POST a movie"
+
+
+@app.route("/movies/<int:id>")
+def movies_by_id():
+    pass
+
+
+
 
 
 if __name__ == "__main__":
