@@ -17,13 +17,7 @@ collection = db['movies']
 def get_movies(start=0, offset=50):
     """Get all movies. Paginate accordingly. Return only id, title and year of a movie. Return 50 values by default"""
 
-    res = jsonify()
-    if (start >= offset) or (offset <= start):
-        return jsonify({
-            'ERROR': 'Internal server error. Make sure "start" and "offset" values are correct.'
-        }), 500
-
-    if offset >= 1000:
+    if offset >= 1000 or offset <=0:
         return jsonify({
             'ERROR': "Cant return more than 1000 records at a time. Please set offset query param less than 1000"
         }), 500
