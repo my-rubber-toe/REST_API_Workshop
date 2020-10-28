@@ -76,26 +76,32 @@ def update_movie_by_id(id, movie_data):
     """Update the movie from the database by id"""
 
     # If the movie_data is the same as in the database will not update the document
-    movie_doc_updated = collection.update_one({'_id': ObjectId(id)}, {"$set": movie_data})
-    
+    movie_doc_updated = collection.update_one(
+        {'_id': ObjectId(id)}, {"$set": movie_data})
+
     if movie_doc_updated.modified_count > 0:
         return jsonify(
             {
                 'message': 'Successfully updated documents!',
                 'updated_count': movie_doc_updated.modified_count,
-                '_id': movie_doc_updated.upserted_id
             }
         )
 
     return jsonify(
-            {
-                'message': 'No document was updated!',
-                'updated_count': movie_doc_updated.modified_count
-            }
-        )
-
+        {
+            'message': 'No document was updated!',
+            'updated_count': movie_doc_updated.modified_count
+        }
+    )
 
 
 def remove_movie_by_id(id):
     """"Remove movie by id"""
-    pass
+    deleted_movie = collection.delete_one({'_id': ObjectId(id)})
+
+    return jsonify(
+        {
+            'message': 'Successfully deleted document!',
+            'deleted_count': deleted_movie.deleted_count
+        }
+    )
