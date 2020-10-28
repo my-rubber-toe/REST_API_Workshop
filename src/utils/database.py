@@ -54,13 +54,7 @@ def get_movies(start=0, offset=50):
 
 def create_movie(body):
     """Insert a new movie into the database. use the movie model serialization."""
-    # Insert movie to the database
-    created_item = collection.insert_one(body)
-
-    return jsonify({
-        'message': 'Movie successfully created!',
-        'id': str(created_item.inserted_id) ## Must be cast to str(). Raises TypeError: Object of type ObjectId is not JSON serializable 
-    })
+    pass
 
 
 def get_movie_by_id(id):

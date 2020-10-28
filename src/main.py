@@ -23,28 +23,14 @@ def main_route():
     return jsonify(available_routes), 200
 
 
-@app.route("/movies", methods=['GET', 'POST'])
+@app.route("/movies")
 def movies_endpoint():
-    if request.method == 'GET':
-        if request.args:
+    if request.args:
             start = int(request.args.get('start')) if request.args.__contains__('start') else 0
             offset = int(request.args.get('offset')) if request.args.__contains__('start') else 0
             return database.get_movies(start=start, offset=offset)
 
-        return database.get_movies()
-
-    if request.method == 'POST':
-        # If we get a bad request that means there is no JSON object
-        req_body = request.json
-        if req_body:
-
-            # Validate the request body
-            CreateMovieValidator().load(req_body)
-
-            # Pass validated request body to create new document
-            return database.create_movie(body=req_body)
-
-    raise Exception()
+    return database.get_movies()
 
 
 # Request parameter <id> can be set to be a specific numeric type int, float
