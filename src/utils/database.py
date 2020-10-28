@@ -17,7 +17,7 @@ collection = db['movies']
 def get_movies(start=0, offset=50):
     """Get all movies. Paginate accordingly. Return only id, title and year of a movie. Return 50 values by default"""
 
-    if offset >= 1000 or offset <=0:
+    if offset >= 1000 or offset <= 0:
         return jsonify({
             'ERROR': "Cant return more than 1000 records at a time. Please set offset query param less than 1000"
         }), 500
@@ -53,22 +53,23 @@ def create_movie(body):
 
     return jsonify({
         'message': 'Movie successfully created!',
-        'id': str(created_item.inserted_id) ## Must be cast to str(). Raises TypeError: Object of type ObjectId is not JSON serializable 
+        # Must be cast to str(). Raises TypeError: Object of type ObjectId is not JSON serializable
+        'id': str(created_item.inserted_id)
     })
 
 
 def get_movie_by_id(id):
     """Get a movie by id. Return all fields of a movie"""
-    cursor = collection.find_one({'_id': ObjectId(id)})
-    
-    movie = None
+    movie_doc = collection.find_one(
+        {'_id': ObjectId(id)})  # Returns one JSON document or None
 
-    for m in cursor:
-        movie = MovieModel(**m)
-    
-    return jsonify(movie.to_json())
+    if movie_doc:
+        # Serialize the ObjectID from the document. If this is not done, jsonify cannot build response
+        movie_doc['_id'] = str(movie_doc['_id'])
 
+        return jsonify(movie_doc), 200
 
+    return jsonify({'message': 'Invalid document id!'}), 403
 
 
 def update_movie_by_id(id, movie_data):
