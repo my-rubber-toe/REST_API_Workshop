@@ -83,7 +83,6 @@ def update_movie_by_id(id, movie_data):
             {
                 'message': 'Successfully updated documents!',
                 'updated_count': movie_doc_updated.modified_count,
-                '_id': movie_doc_updated.upserted_id
             }
         )
 
