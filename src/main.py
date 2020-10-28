@@ -3,7 +3,7 @@ import json
 import os
 from utils import database
 from utils.movie import MovieModel
-from utils.validators import CreateMovieValidator
+from utils.validators import CreateMovieValidator, UpdateMovieValidator
 
 app = Flask(__name__)
 
@@ -27,8 +27,10 @@ def main_route():
 def movies_endpoint():
     if request.method == 'GET':
         if request.args:
-            start = int(request.args.get('start')) if request.args.__contains__('start') else 0
-            offset = int(request.args.get('offset')) if request.args.__contains__('start') else 0
+            start = int(request.args.get('start')
+                        ) if request.args.__contains__('start') else 0
+            offset = int(request.args.get('offset')
+                         ) if request.args.__contains__('start') else 0
             return database.get_movies(start=start, offset=offset)
 
         return database.get_movies()
@@ -48,9 +50,15 @@ def movies_endpoint():
 
 
 # Request parameter <id> can be set to be a specific numeric type int, float
-@app.route("/movies/<id>")
-def movies_by_id(id):  # Since we will be josking with bson we need it to be a str
-    return database.get_movie_by_id(id)
+@app.route("/movies/<id>", methods=['GET', 'PUT', 'PATCH'])
+def movies_by_id(id):  # Since we will be working with bson we need id to be a str
+    if request.method == 'GET':
+        return database.get_movie_by_id(id)
+
+    if request.method == 'PUT' or request.method == 'PATCH':
+        # Validate request
+        UpdateMovieValidator().load(request.json)
+        return database.update_movie_by_id(id, request.json)
 
 
 if __name__ == "__main__":
