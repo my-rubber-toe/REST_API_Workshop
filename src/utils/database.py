@@ -34,7 +34,7 @@ def get_movies(start=0, offset=50):
         }), 500
 
     cursor = collection.find(
-        {}, {"_id": True, "Title": True, "Year": True}).skip(start).limit(offset)
+        {}, {"_id": True, "title": True, "year": True}).skip(start).limit(offset)
 
     # Response list
     res_arr = list()
@@ -43,8 +43,8 @@ def get_movies(start=0, offset=50):
     for item in cursor:
         movie_object = MovieModel(**item)
         custom_json = {
-            'Title': movie_object.title,
-            'Year': movie_object.year,
+            'title': movie_object.title,
+            'year': movie_object.year,
             'id': movie_object.id
         }
         res_arr.append(custom_json)
@@ -54,18 +54,12 @@ def get_movies(start=0, offset=50):
 
 def create_movie(body):
     """Insert a new movie into the database. use the movie model serialization."""
-    # Use spread operator to populate movie model
-    new_item = MovieModel(**body)
-    
-    # Add a valid bson ObjectID to the movie model
-    new_item.id = ObjectId()
-
     # Insert movie to the database
-    created_item = collection.insert_one(new_item.to_json())
-    
+    created_item = collection.insert_one(body)
+
     return jsonify({
         'message': 'Movie successfully created!',
-        'id': str(created_item.inserted_id)
+        'id': str(created_item.inserted_id) ## Must be cast to str(). Raises TypeError: Object of type ObjectId is not JSON serializable 
     })
 
 
