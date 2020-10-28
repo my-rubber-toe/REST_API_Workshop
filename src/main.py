@@ -3,7 +3,6 @@ import json
 import os
 from utils import database
 from utils.movie import MovieModel
-from utils.validators import CreateMovieValidator
 
 app = Flask(__name__)
 
@@ -26,9 +25,11 @@ def main_route():
 @app.route("/movies")
 def movies_endpoint():
     if request.args:
-            start = int(request.args.get('start')) if request.args.__contains__('start') else 0
-            offset = int(request.args.get('offset')) if request.args.__contains__('start') else 0
-            return database.get_movies(start=start, offset=offset)
+        start = int(request.args.get('start')
+                    ) if request.args.__contains__('start') else 0
+        offset = int(request.args.get('offset')
+                     ) if request.args.__contains__('start') else 0
+        return database.get_movies(start=start, offset=offset)
 
     return database.get_movies()
 
