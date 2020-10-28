@@ -17,13 +17,7 @@ collection = db['movies']
 def get_movies(start=0, offset=50):
     """Get all movies. Paginate accordingly. Return only id, title and year of a movie. Return 50 values by default"""
 
-    res = jsonify()
-    if (start >= offset) or (offset <= start):
-        return jsonify({
-            'ERROR': 'Internal server error. Make sure "start" and "offset" values are correct.'
-        }), 500
-
-    if offset >= 1000:
+    if offset >= 1000 or offset <= 0:
         return jsonify({
             'ERROR': "Cant return more than 1000 records at a time. Please set offset query param less than 1000"
         }), 500
@@ -34,7 +28,7 @@ def get_movies(start=0, offset=50):
         }), 500
 
     cursor = collection.find(
-        {}, {"_id": True, "Title": True, "Year": True}).skip(start).limit(offset)
+        {}, {"_id": True, "title": True, "year": True}).skip(start).limit(offset)
 
     # Response list
     res_arr = list()
@@ -43,8 +37,8 @@ def get_movies(start=0, offset=50):
     for item in cursor:
         movie_object = MovieModel(**item)
         custom_json = {
-            'Title': movie_object.title,
-            'Year': movie_object.year,
+            'title': movie_object.title,
+            'year': movie_object.year,
             'id': movie_object.id
         }
         res_arr.append(custom_json)
@@ -54,33 +48,28 @@ def get_movies(start=0, offset=50):
 
 def create_movie(body):
     """Insert a new movie into the database. use the movie model serialization."""
-    # Use spread operator to populate movie model
-    new_item = MovieModel(**body)
-    
-    # Add a valid bson ObjectID to the movie model
-    new_item.id = ObjectId()
-
     # Insert movie to the database
-    created_item = collection.insert_one(new_item.to_json())
-    
+    created_item = collection.insert_one(body)
+
     return jsonify({
         'message': 'Movie successfully created!',
+        # Must be cast to str(). Raises TypeError: Object of type ObjectId is not JSON serializable
         'id': str(created_item.inserted_id)
     })
 
 
 def get_movie_by_id(id):
     """Get a movie by id. Return all fields of a movie"""
-    cursor = collection.find_one({'_id': ObjectId(id)})
-    
-    movie = None
+    movie_doc = collection.find_one(
+        {'_id': ObjectId(id)})  # Returns one JSON document or None
 
-    for m in cursor:
-        movie = MovieModel(**m)
-    
-    return jsonify(movie.to_json())
+    if movie_doc:
+        # Serialize the ObjectID from the document. If this is not done, jsonify cannot build response
+        movie_doc['_id'] = str(movie_doc['_id'])
 
+        return jsonify(movie_doc), 200
 
+    return jsonify({'message': 'Invalid document id!'}), 403
 
 
 def update_movie_by_id(id, movie_data):

@@ -6,7 +6,6 @@ from bson import objectid
 
 class MovieModel:
     def __init__(self, **kwargs):
-        # self.id: objectid = kwargs['_id']
         self.title: str = kwargs['Title']
         self.year: int = kwargs['Year']
         self.age: int = kwargs['Age']
@@ -23,8 +22,23 @@ class MovieModel:
         self.language: str = kwargs['Language']
         self.runtime: int = kwargs['Runtime']
 
-    def __str__(self):
-        return f"<MovieModel('title':{self.title})>"
+    def to_json(self):
+        return {
+            "title": self.title,
+            "year": self.year,
+            "age": self.age,
+            "imdb": self.imdb,
+            "rotten_tomatoes": self.rotten_tomatoes,
+            "netflix": self.netflix,
+            "hulu": self.hulu,
+            "prine_video": self.prime_video,
+            "disney_plus": self.disney_plus,
+            "directors": self.directors,
+            "genres": self.genres,
+            "country": self.country,
+            "language": self.language,
+            "runtime": self.runtime
+        }
 
 
 client = MongoClient(
@@ -46,9 +60,7 @@ with open('movies.json') as f:
     count = 0
     for x in file_data:
         movie = MovieModel(**x)
-        print(movie)
-
-        collection.insert_one(x)
+        collection.insert_one(movie.to_json())
         print('Uploaded ' + "{:.2f}".format(count/total * 100))
         count = count + 1
 
