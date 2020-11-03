@@ -27,8 +27,7 @@ def get_movies(start=0, offset=50):
             'ERROR': 'Query string error. "string value cannot be less than 0"'
         }), 500
 
-    cursor = collection.find(
-        {}, {"_id": True, "title": True, "year": True}).skip(start).limit(offset)
+    cursor = collection.find({}, {"_id": True, "title": True, "year": True}).skip(start).limit(offset)
 
     # Response list
     res_arr = list()
