@@ -31,7 +31,7 @@ class MovieModel:
             "rotten_tomatoes": self.rotten_tomatoes,
             "netflix": self.netflix,
             "hulu": self.hulu,
-            "prine_video": self.prime_video,
+            "prime_video": self.prime_video,
             "disney_plus": self.disney_plus,
             "directors": self.directors,
             "genres": self.genres,
@@ -43,7 +43,7 @@ class MovieModel:
 
 client = MongoClient(
     host='localhost',
-    port=27017,
+    port=27777,
     username='root',  # Username of the database
     password='Sup3rS1mpl3'  # Password of the database
 )
