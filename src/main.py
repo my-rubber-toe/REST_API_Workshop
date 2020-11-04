@@ -25,10 +25,8 @@ def main_route():
 @app.route("/movies")
 def movies_endpoint():
     if request.args:
-        start = int(request.args.get('start')
-                    ) if request.args.__contains__('start') else 0
-        offset = int(request.args.get('offset')
-                     ) if request.args.__contains__('start') else 0
+        start = int(request.args.get('start')) if request.args.get('start') else 0
+        offset = int(request.args.get('offset')) if request.args.get('offset') else 0
         return database.get_movies(start=start, offset=offset)
 
     return database.get_movies()
