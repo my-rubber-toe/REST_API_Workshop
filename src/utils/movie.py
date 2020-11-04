@@ -4,25 +4,22 @@ from bson import objectid
 class MovieModel:
     def __init__(self, **kwargs):
 
-        # Extract the keys from the database model
-        dictionary_keys = kwargs.keys()
-
         # Dynamically set  properties of the movie if the key exists
-        self.id = str(kwargs['_id']) if dictionary_keys.__contains__('_id') else None
-        self.title = kwargs['title'] if dictionary_keys.__contains__('title') else None
-        self.year = kwargs['year'] if dictionary_keys.__contains__('year') else None
-        self.age = kwargs['age'] if dictionary_keys.__contains__('age') else None
-        self.imdb = kwargs['imdb'] if dictionary_keys.__contains__('imdb') else None
-        self.rotten_tomatoes = kwargs['rotten_tomatoes'] if dictionary_keys.__contains__('rotten_tomatoes') else None
-        self.netflix = kwargs['netflix'] if dictionary_keys.__contains__('netflix') else None
-        self.hulu = kwargs['hulu'] if dictionary_keys.__contains__('hulu') else None
-        self.prime_video = kwargs['prime_video'] if dictionary_keys.__contains__('prime_video') else None
-        self.disney_plus = kwargs['disney_plus'] if dictionary_keys.__contains__('disney_plus') else None
-        self.directors = kwargs['directors'] if dictionary_keys.__contains__('directors') else None
-        self.genres = kwargs['genres'] if dictionary_keys.__contains__('genres') else None
-        self.country = kwargs['country'] if dictionary_keys.__contains__('country') else None
-        self.language = kwargs['language'] if dictionary_keys.__contains__('language') else None
-        self.runtime = kwargs['runtime'] if dictionary_keys.__contains__('runtime') else None
+        self.id = str(kwargs['_id']) if kwargs.get('_id') else None
+        self.title = kwargs['title'] if kwargs.get('title') else None
+        self.year = kwargs['year'] if kwargs.get('year') else None
+        self.age = kwargs['age'] if kwargs.get('age') else None
+        self.imdb = kwargs['imdb'] if kwargs.get('imdb') else None
+        self.rotten_tomatoes = kwargs['rotten_tomatoes'] if kwargs.get('rotten_tomatoes') else None
+        self.netflix = kwargs['netflix'] if kwargs.get('netflix') else None
+        self.hulu = kwargs['hulu'] if kwargs.get('hulu') else None
+        self.prime_video = kwargs['prime_video'] if kwargs.get('prime_video') else None
+        self.disney_plus = kwargs['disney_plus'] if kwargs.get('disney_plus') else None
+        self.directors = kwargs['directors'] if kwargs.get('directors') else None
+        self.genres = kwargs['genres'] if kwargs.get('genres') else None
+        self.country = kwargs['country'] if kwargs.get('country') else None
+        self.language = kwargs['language'] if kwargs.get('language') else None
+        self.runtime = kwargs['runtime'] if kwargs.get('runtime') else None
 
         # Best solution: Attributes must be accessed as the database attributes
         # for k in kwargs.keys():
