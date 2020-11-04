@@ -6,8 +6,8 @@ from bson.objectid import ObjectId
 mongo_client = MongoClient(
     host='localhost',
     port=27017,
-    username='root',  # Username of the database
-    password='Sup3rS1mpl3'  # Password of the database
+    # username='root',  # Username of the database
+    # password='Sup3rS1mpl3'  # Password of the database
 )
 
 db = mongo_client['movie_catalog']

@@ -7,7 +7,7 @@ services:
     restart: always
     # Diable ports on production
     ports:
-      - 27017:27017
+      - 27777:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: Sup3rS1mpl3

@@ -27,11 +27,11 @@ def main_route():
 def movies_endpoint():
     if request.method == 'GET':
         if request.args:
-            start = int(request.args.get('start')
-                        ) if request.args.__contains__('start') else 0
-            offset = int(request.args.get('offset')
-                         ) if request.args.__contains__('start') else 0
-            return database.get_movies(start=start, offset=offset)
+            start = request.args.get('start') if request.args.get('start') else 0
+            offset = request.args.get('offset') if request.args.get('offset') else 0
+            
+            # Query param must be casted to string
+            return database.get_movies(start=int(start), offset=int(offset))
 
         return database.get_movies()
 
@@ -59,7 +59,7 @@ def movies_by_id(id):  # Since we will be working with bson we need id to be a s
         # Validate request
         UpdateMovieValidator().load(request.json)
         return database.update_movie_by_id(id, request.json)
-    
+
     if request.method == 'DELETE':
         return database.remove_movie_by_id(id)
 

@@ -43,7 +43,7 @@ class MovieModel:
 
 client = MongoClient(
     host='localhost',
-    port=27017,
+    port=27777,
     username='root',  # Username of the database
     password='Sup3rS1mpl3'  # Password of the database
 )
