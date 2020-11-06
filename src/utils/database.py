@@ -6,8 +6,8 @@ from bson.objectid import ObjectId
 mongo_client = MongoClient(
     host='localhost',
     port=27017,
-    username='root',  # Username of the database
-    password='Sup3rS1mpl3'  # Password of the database
+    # username='root',  # Username of the database
+    # password='Sup3rS1mpl3'  # Password of the database
 )
 
 db = mongo_client['movie_catalog']
@@ -97,4 +97,11 @@ def update_movie_by_id(id, movie_data):
 
 def remove_movie_by_id(id):
     """"Remove movie by id"""
-    pass
+    deleted_movie = collection.delete_one({'_id': ObjectId(id)})
+
+    return jsonify(
+        {
+            'message': 'Successfully deleted document!',
+            'deleted_count': deleted_movie.deleted_count
+        }
+    )
