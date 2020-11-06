@@ -50,7 +50,7 @@ def movies_endpoint():
 
 
 # Request parameter <id> can be set to be a specific numeric type int, float
-@app.route("/movies/<id>", methods=['GET', 'PUT', 'PATCH', 'DELETE'])
+@app.route("/movies/<id>", methods=['GET', 'PUT', 'PATCH'])
 def movies_by_id(id):  # Since we will be working with bson we need id to be a str
     if request.method == 'GET':
         return database.get_movie_by_id(id)
@@ -59,9 +59,6 @@ def movies_by_id(id):  # Since we will be working with bson we need id to be a s
         # Validate request
         UpdateMovieValidator().load(request.json)
         return database.update_movie_by_id(id, request.json)
-    
-    if request.method == 'DELETE':
-        return database.remove_movie_by_id(id)
 
 
 if __name__ == "__main__":
